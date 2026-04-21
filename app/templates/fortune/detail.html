@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}{{ fortune.title }} - 籤詩詳情{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center py-4">
+    <div class="col-lg-8">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <a href="{{ url_for('profile.profile_index') }}" class="btn btn-outline-light btn-sm">&larr; 回到個人主頁</a>
+            <a href="{{ url_for('main.draw_fortune') }}" class="btn btn-premium btn-sm">再次求籤</a>
+        </div>
+        
+        <div class="glass-panel text-center p-md-5 mx-2">
+            <span class="badge bg-warning text-dark mb-3 px-3 py-2 fs-6 rounded-pill">所求之神明解籤</span>
+            <h1 class="display-4 fw-bold mb-4 text-warning">{{ fortune.title }}</h1>
+            
+            <!-- Poem / 詩詞區塊 -->
+            <div class="card bg-dark bg-opacity-50 border-0 rounded-4 p-4 mb-4 shadow-sm" style="border-left: 5px solid #ff8e53 !important;">
+                <h3 class="fw-light lh-lg text-white mb-0" style="white-space: pre-line;">{{ fortune.poem }}</h3>
+            </div>
+            
+            <!-- Interpretation / 解析區塊 -->
+            <div class="text-start bg-light bg-opacity-10 p-4 rounded-4 mt-4 border border-light border-opacity-25">
+                <h4 class="fw-bold mb-3 d-flex align-items-center gap-2 text-warning">
+                    <span class="fs-5">📜</span> 籤詩解析
+                </h4>
+                <p class="fs-5 lh-base opacity-100 mb-0" style="white-space: pre-line;">{{ fortune.interpretation }}</p>
+            </div>
+            
+            <div class="mt-5 pt-3">
+                <p class="opacity-75 small mb-3">您可以將這支籤儲存至您的個人紀錄中，方便日後回顧</p>
+                <form action="{{ url_for('main.save_fortune', fortune_id=fortune.id) }}" method="POST">
+                    <button type="submit" class="btn btn-premium px-5 w-100 fs-5 rounded-pill shadow">🔒 儲存此籤詩</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}添香油錢 - 線上算命系統{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center py-5">
+    <div class="col-lg-6 col-md-8">
+        <div class="glass-panel text-center px-4 py-5 shadow-lg">
+            <h2 class="display-2 mb-4 drop-shadow">🧧</h2>
+            <h2 class="fw-bold mb-3 text-warning">添香油錢・廣結善緣</h2>
+            <p class="opacity-75 mb-5 px-md-3 lh-lg">感謝神明的無私指引！您可以透過自由樂捐的方式支持本系統營運。您的每一份發心，都會轉換為功德紀錄在您的名下。</p>
+            
+            <form action="{{ url_for('profile.donate_checkout') }}" method="POST" class="text-start bg-dark bg-opacity-25 p-4 rounded-4 border border-secondary border-opacity-50">
+                <div class="mb-4">
+                    <label class="form-label text-white fw-bold fs-5 mb-3">請選擇您的發心金額</label>
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <input type="radio" class="btn-check" name="amount" id="amt1" value="100" autocomplete="off" checked>
+                            <label class="btn btn-outline-warning w-100 py-3 fs-5 rounded-4 shadow-sm" for="amt1">NT$ 100</label>
+                        </div>
+                        <div class="col-6">
+                            <input type="radio" class="btn-check" name="amount" id="amt2" value="300" autocomplete="off">
+                            <label class="btn btn-outline-warning w-100 py-3 fs-5 rounded-4 shadow-sm" for="amt2">NT$ 300</label>
+                        </div>
+                        <div class="col-6">
+                            <input type="radio" class="btn-check" name="amount" id="amt3" value="500" autocomplete="off">
+                            <label class="btn btn-outline-warning w-100 py-3 fs-5 rounded-4 shadow-sm" for="amt3">NT$ 500</label>
+                        </div>
+                        <div class="col-6">
+                            <input type="radio" class="btn-check" name="amount" id="amt4" value="1000" autocomplete="off">
+                            <label class="btn btn-outline-warning w-100 py-3 fs-5 rounded-4 shadow-sm" for="amt4">NT$ 1,000</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-4 mt-4">
+                    <label for="customAmount" class="form-label text-light fw-bold">或輸入自訂金額 (NT$)</label>
+                    <input type="number" class="form-control form-control-lg bg-light bg-opacity-10 text-white border-secondary" id="customAmount" placeholder="輸入其他金額" min="10" oninput="clearRadioSelection()">
+                </div>
+                
+                <hr class="opacity-25 my-4 border-light">
+                
+                <div class="d-grid gap-3">
+                    <button type="submit" class="btn btn-premium btn-lg fs-4 shadow-lg py-3 rounded-pill" onclick="prepareSubmit()">🙏 確認結帳付款 (模擬金流)</button>
+                    <a href="{{ url_for('profile.profile_index') }}" class="btn btn-link text-white-50 text-decoration-none mt-2">← 取消並返回主頁</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function clearRadioSelection() {
+        const radios = document.querySelectorAll('input[name="amount"]');
+        radios.forEach(r => r.checked = false);
+    }
+    
+    function prepareSubmit() {
+        const custom = document.getElementById('customAmount').value;
+        if(custom && custom > 0) {
+            const form = document.querySelector('form');
+            // Remove previous hidden if exists
+            let existingHidden = document.getElementById('hiddenCustomAmount');
+            if(existingHidden) existingHidden.remove();
+            
+            const hidden = document.createElement('input');
+            hidden.type = 'hidden';
+            hidden.name = 'amount';
+            hidden.id = 'hiddenCustomAmount';
+            hidden.value = custom;
+            form.appendChild(hidden);
+        }
+    }
+</script>
+{% endblock %}
